@@ -60,6 +60,13 @@ components:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Phone'
+      get:
+        responses:
+          '200':
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Phone'
 
 
   
