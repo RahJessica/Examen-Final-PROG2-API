@@ -27,6 +27,16 @@ def read_health():
     return Response(content="Ok", status_code=status.HTTP_200_OK, media_type="text/plain")
 
 
+# EXO1 - b
+@app.post("/phones", response_model=List[Phone], status_code=status.HTTP_201_CREATED)
+def create_phones(new_phone: List[Phone]):
+    start_id = len(phones_db) + 1
+    created_phone = [
+        Post(id=start_id + i, **post.dict()) for i, post in enumerate(new_phone)
+    ]
+    phones_db.extend(created_phone)
+    return created_phone
+
 # Q2
 @app.get("/home", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def welcome_home():
@@ -44,20 +54,10 @@ def welcome_home():
     """
 
 
-# EXO1 - b
-@app.post("/phones", response_model=List[Phone], status_code=status.HTTP_201_CREATED)
-def create_phones(new_phone: List[Phone]):
-    start_id = len(phones_db) + 1
-    created_phone = [
-        Post(id=start_id + i, **post.dict()) for i, post in enumerate(new_phone)
-    ]
-    phones_db.extend(created_phone)
-    return created_phone
-
 
 # Q5 - Récupérer tous les posts
-@app.get("/posts", response_model=List[Post], status_code=status.HTTP_200_OK)
-def get_posts():
+@app.get("/posts", response_model=List[Phone], status_code=status.HTTP_200_OK)
+def get_phones():
     return phones_db
 
 
