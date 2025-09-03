@@ -7,17 +7,18 @@ from starlette.responses import HTMLResponse
 # lancer le server : uvicorn main:app --reload
 app = FastAPI(title="Blog API", version="1.0")
 
-class PostCreate(BaseModel):
-    author: str
-    title: str
-    content: str
+class Phone(BaseModel):
+    identifier: str
+    brand: str
+    model: str
+    characteristics: str
 
-class Post(PostCreate):
+class Post(Phone):
     id: int
 
 
-posts_db: List[Post] = [
-    Post(id=1, author="Lucas Clavel", title="Les temps d'automne", content="Livre long")
+phones_db: List[Phone] = [
+    Phone(identifier="1", brand="Samsung", model="A22", characteristics="robuste")
 ]
 
 # EXO1 - a
@@ -43,33 +44,33 @@ def welcome_home():
     """
 
 
-# Q4 - Créer un ou plusieurs posts
-@app.post("/posts", response_model=List[Post], status_code=status.HTTP_201_CREATED)
-def create_posts(new_posts: List[PostCreate]):
-    start_id = len(posts_db) + 1
-    created_posts = [
-        Post(id=start_id + i, **post.dict()) for i, post in enumerate(new_posts)
+# EXO1 - b
+@app.post("/phones", response_model=List[Phone], status_code=status.HTTP_201_CREATED)
+def create_phones(new_phone: List[Phone]):
+    start_id = len(phones_db) + 1
+    created_phone = [
+        Post(id=start_id + i, **post.dict()) for i, post in enumerate(new_phone)
     ]
-    posts_db.extend(created_posts)
-    return created_posts
+    phones_db.extend(created_phone)
+    return created_phone
 
 
 # Q5 - Récupérer tous les posts
 @app.get("/posts", response_model=List[Post], status_code=status.HTTP_200_OK)
 def get_posts():
-    return posts_db
+    return phones_db
 
 
 # Q6 - Mettre à jour un post par ID
 @app.put("/posts/{post_id}", response_model=Post, status_code=status.HTTP_200_OK)
-def update_post(post_id: int, new_post: PostCreate):
-    for i, existing_post in enumerate(posts_db):
+def update_post(post_id: int, new_post: Phone):
+    for i, existing_post in enumerate(phones_db):
         if existing_post.id == post_id:
             updated_post = Post(id=post_id, **new_post.model_dump())
-            posts_db[i] = updated_post
+            phones_db[i] = updated_post
             return updated_post
 
     # Si le post n'existe pas encore, on l'ajoute
     new_post_with_id = Post(id=post_id, **new_post.model_dump())
-    posts_db.append(new_post_with_id)
+    phones_db.append(new_post_with_id)
     return new_post_with_id
