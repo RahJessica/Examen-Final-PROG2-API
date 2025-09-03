@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from starlette import status
 from starlette.responses import HTMLResponse
 
+# lancer le server : uvicorn main:app --reload
 app = FastAPI(title="Blog API", version="1.0")
 
 class PostCreate(BaseModel):
@@ -19,10 +20,10 @@ posts_db: List[Post] = [
     Post(id=1, author="Lucas Clavel", title="Les temps d'automne", content="Livre long")
 ]
 
-# Q1
-@app.get("/ping", response_class=Response)
-def read_ping():
-    return Response(content="Pong", status_code=status.HTTP_200_OK, media_type="text/plain")
+# EXO1 - a
+@app.get("/health", response_class=Response)
+def read_health():
+    return Response(content="Ok", status_code=status.HTTP_200_OK, media_type="text/plain")
 
 
 # Q2
