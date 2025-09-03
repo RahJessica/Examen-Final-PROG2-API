@@ -38,7 +38,7 @@ def create_phones(new_phone: List[Phone]):
     return created_phone
 
 # EXO1 - c
-@app.get("/posts", response_model=List[Phone], status_code=status.HTTP_200_OK)
+@app.get("/phones", response_model=List[Phone], status_code=status.HTTP_200_OK)
 def get_phones():
     return phones_db
 
