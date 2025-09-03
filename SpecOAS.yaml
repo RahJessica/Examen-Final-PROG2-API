@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: STD24053
+  description: "This is a specification of STD24053"
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080'
+components:
+  schemas:
+    name: Phone
+    type: object
+    properties:
+      identifier:
+        type: string
+        example: "1"
+      brand:
+        type: string
+        example: "Samsung"
+      model:
+        type: string
+        example: "A22"
+      characteristic:
+        type: object
+        properties:
+          ram_memory:
+            type: integer
+            format: int64
+            example: 8
+          rom_memory:
+            type: integer
+            format: int64
+            example: 250
+paths:
+  /health:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: text/plain
+  /phones:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand:
+                  type: string
+                model:
+                  type: string
+                characteristics:
+                  type: string
+      responses:
+        '201':
+          description: "Phone created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/phone'
+
+
+  
